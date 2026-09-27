@@ -1,0 +1,18 @@
+[env]
+KUBECONFIG = "{{config_root}}/kubeconfig"
+TALOSCONFIG = "{{config_root}}/talos/talosconfig"
+
+[tools]
+github-cli = "latest"
+jq = "latest"
+yq = "latest"
+k9s = "latest"
+talosctl = "1.14.1"
+kubectl = "1.37.0"
+kustomize = "5.8.1"
+helm = "latest"
+helmfile = "latest"
+kubeconform = "latest"
+cilium-cli = "0.20.1"
+flux2 = "2.9.5"
+"github:postfinance/topf" = "v0.6.0"        # Talhelper replacement
