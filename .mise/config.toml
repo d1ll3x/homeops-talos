@@ -1,6 +1,8 @@
 [env]
 KUBECONFIG = "{{config_root}}/kubeconfig"
 TALOSCONFIG = "{{config_root}}/talos/talosconfig"
+BWS_PROJECT_ID = "582cc0c9-2762-4769-9a35-b4da00ebcc1b"
+BWS_SERVER_URL = "https://vault.bitwarden.com"
 
 [tools]
 github-cli = "2.102.0"

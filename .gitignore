@@ -9,6 +9,7 @@ talosconfig
 
 # Agents
 .claude/
+.mcp.json
 
 # Talos templates
 /talos/output/

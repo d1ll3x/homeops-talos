@@ -1,0 +1,5 @@
+[providers]
+bws = { type = "bitwarden-sm" }
+
+[secrets]
+ESO_BWS_TOKEN = { provider = "bws", value = "eso-access-token" }
