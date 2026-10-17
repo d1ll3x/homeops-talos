@@ -7,10 +7,6 @@
 secrets.yaml
 /flux-webhook-token.txt
 
-# Talos: anything rendered from talos/*.j2 carries secrets
-talos/*.yaml
-talos/rendered/
-
 # Kubernetes
 kubeconfig
 talosconfig
