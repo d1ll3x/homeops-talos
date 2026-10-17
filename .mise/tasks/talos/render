@@ -4,12 +4,12 @@
 #USAGE arg "[vars]..." help="extra -D key=value template vars, e.g. schematic=<id>"
 set -euo pipefail
 
-tpl="${usage_template:?}"
+tpl="${1:?template required}"; shift
 out="talos/rendered/$(basename "${tpl%.j2}")"
 mkdir -p talos/rendered && chmod 700 talos/rendered
 
 defines=()
-for v in ${usage_vars:-}; do defines+=(-D "$v"); done
+for v in "$@"; do defines+=(-D "$v"); done
 
 # minijinja dumps all ENV values on error; keep only the first line (names, no values)
 err="$(mktemp)"; trap 'rm -f "$err"' EXIT
