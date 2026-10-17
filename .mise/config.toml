@@ -1,9 +1,8 @@
 [env]
 KUBECONFIG = "{{config_root}}/kubeconfig"
 TALOSCONFIG = "{{config_root}}/talos/talosconfig"
-CLUSTER_NAME = "kotor"
-ENDPOINT = "kotor.tebbenet.nl"
-DISK_NAME = "sda"
+MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
+JUST_UNSTABLE = "1"
 
 [tools]
 github-cli = "2.102.0"
@@ -18,4 +17,6 @@ helmfile = "1.8.1"
 kubeconform = "0.8.0"
 cilium-cli = "0.20.1"
 flux2 = "2.9.5"
+just = "1.59.0"
+gum = "2.0.2"
 "aqua:mitsuhiko/minijinja" = "3.0.1"    # minijinja-cli: renders talos/*.j2 under fnox exec
