@@ -3,5 +3,20 @@ keychain = { type = "keychain", service = "fnox", prefix = "talos/" }
 bws = { type = "bitwarden-sm", project_id = "582cc0c9-2762-4769-9a35-b4da00ebcc1b" }
 
 [secrets]
-BWS_ACCESS_TOKEN= { provider = "keychain", value = "bws_access_token" }
-GITHUB_PERSONAL_ACCESS_TOKEN = { provider = "bws", value = "GITHUB_PAT" }
+BWS_ACCESS_TOKEN = { provider = "keychain", value = "bws_access_token" }
+
+# Talos machine/cluster secrets, consumed by talos/*.j2 as {{ ENV.<name> }}
+MACHINE_CA_CRT = { provider = "bws", value = "MACHINE_CA_CRT" }
+MACHINE_CA_KEY = { provider = "bws", value = "MACHINE_CA_KEY" }
+MACHINE_TOKEN = { provider = "bws", value = "MACHINE_TOKEN" }
+CLUSTER_ID = { provider = "bws", value = "CLUSTER_ID" }
+CLUSTER_SECRET = { provider = "bws", value = "CLUSTER_SECRET" }
+CLUSTER_TOKEN = { provider = "bws", value = "CLUSTER_TOKEN" }
+CLUSTER_CA_CRT = { provider = "bws", value = "CLUSTER_CA_CRT" }
+CLUSTER_CA_KEY = { provider = "bws", value = "CLUSTER_CA_KEY" }
+CLUSTER_AGGREGATORCA_CRT = { provider = "bws", value = "CLUSTER_AGGREGATORCA_CRT" }
+CLUSTER_AGGREGATORCA_KEY = { provider = "bws", value = "CLUSTER_AGGREGATORCA_KEY" }
+CLUSTER_ETCD_CA_CRT = { provider = "bws", value = "CLUSTER_ETCD_CA_CRT" }
+CLUSTER_ETCD_CA_KEY = { provider = "bws", value = "CLUSTER_ETCD_CA_KEY" }
+CLUSTER_SERVICEACCOUNT_KEY = { provider = "bws", value = "CLUSTER_SERVICEACCOUNT_KEY" }
+CLUSTER_SECRETBOXENCRYPTIONSECRET = { provider = "bws", value = "CLUSTER_SECRETBOXENCRYPTIONSECRET" }

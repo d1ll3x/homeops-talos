@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#MISE description="Render a talos/*.j2 template with fnox secrets into talos/rendered/ (never stdout)"
+#USAGE arg "<template>" help="e.g. talos/cluster.yaml.j2"
+#USAGE arg "[vars]..." help="extra -D key=value template vars, e.g. schematic=<id>"
+set -euo pipefail
+
+tpl="${usage_template:?}"
+out="talos/rendered/$(basename "${tpl%.j2}")"
+mkdir -p talos/rendered && chmod 700 talos/rendered
+
+defines=()
+for v in ${usage_vars:-}; do defines+=(-D "$v"); done
+
+# minijinja dumps all ENV values on error; keep only the first line (names, no values)
+err="$(mktemp)"; trap 'rm -f "$err"' EXIT
+umask 077
+if ! fnox exec -- minijinja-cli --env --strict "${defines[@]}" -o "$out" "$tpl" 2>"$err"; then
+  head -n1 "$err" >&2
+  rm -f "$out"
+  exit 1
+fi
+echo "rendered $tpl -> $out"
