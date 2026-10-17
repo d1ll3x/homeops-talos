@@ -1,5 +1,7 @@
 [providers]
-bws = { type = "bitwarden-sm" }
+keychain = { type = "keychain", service = "fnox", prefix = "talos/" }
+bws = { type = "bitwarden-sm", project_id = "582cc0c9-2762-4769-9a35-b4da00ebcc1b" }
 
 [secrets]
-ESO_BWS_TOKEN = { provider = "bws", value = "eso-access-token" }
+BWS_ACCESS_TOKEN= { provider = "keychain", value = "bws_access_token" }
+GITHUB_PERSONAL_ACCESS_TOKEN = { provider = "bws", value = "GITHUB_PAT" }

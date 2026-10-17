@@ -1,6 +1,7 @@
 # Secrets
 *.pub
 *.key
+secrets.yaml
 /flux-webhook-token.txt
 
 # Kubernetes
@@ -10,7 +11,3 @@ talosconfig
 # Agents
 .claude/
 .mcp.json
-
-# Talos templates
-/talos/output/
-/talos/rendered/
