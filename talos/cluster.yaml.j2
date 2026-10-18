@@ -11,9 +11,9 @@ machine:
 cluster:
   ca:
     crt: {{ ENV.CLUSTER_CA_CRT }}
-  clusterName: main
+  clusterName: kotor
   controlPlane:
-    endpoint: https://kotor.internal:6443
+    endpoint: https://k8s.internal:6443
   token: {{ ENV.CLUSTER_TOKEN }}
 ---
 apiVersion: v1alpha1
@@ -42,6 +42,7 @@ vlanID: 20
 parent: bond0
 mtu: 9000
 ---
+# IoT
 apiVersion: v1alpha1
 kind: VLANConfig
 name: bond0.50
@@ -71,19 +72,9 @@ clusterSecret: {{ ENV.CLUSTER_SECRET }}
 apiVersion: v1alpha1
 kind: UnattendedInstallConfig
 installer:
-  image: factory.talos.dev/metal-installer/{{ schematic }}:v1.14.2
+  image: factory.talos.dev/metal-installer/{{ schematic }}:{{ talos_version }}
 provisioning:
-  diskSelector:
-    match: disk.model == "MK000480GWCEV"
   wipe: false
----
-apiVersion: v1alpha1
-kind: RawVolumeConfig
-name: miroir-slow
-provisioning:
-  diskSelector:
-    match: disk.transport == "nvme" && !system_disk
-  minSize: 1TB
 ---
 apiVersion: v1alpha1
 kind: FilesystemTrimConfig
@@ -132,11 +123,14 @@ params:
   net.ipv4.tcp_fastopen: "3"
   net.ipv4.tcp_mtu_probing: "1"
   net.ipv4.tcp_notsent_lowat: "131072"
-  net.ipv4.tcp_rmem: 4096 131072 67108864
+  net.ipv4.tcp_rmem: 4096 87380 33554432
   net.ipv4.tcp_slow_start_after_idle: "0"
-  net.ipv4.tcp_wmem: 4096 65536 67108864
+  net.ipv4.tcp_wmem: 4096 65536 33554432
   net/ipv6/conf/bond0.50/disable_ipv6: "1" # keep the host off IPv6 on the IoT segment
+  sunrpc.tcp_max_slot_table_entries: "128"
+  sunrpc.tcp_slot_table_entries: "128"
   user.max_user_namespaces: "11255"
+  vm.nr_hugepages: "1024"
 ---
 apiVersion: v1alpha1
 kind: EtcFileConfig
@@ -155,7 +149,7 @@ contents: |
   [ NFSMount_Global_Options ]
   nfsvers=4.2
   hard=True
-  nconnect=16
+  nconnect=8
   noatime=True
   rsize=1048576
   wsize=1048576
@@ -185,11 +179,12 @@ config:
     maxContainerRestartPeriod: 60s
   imageMaximumGCAge: 168h
   maxParallelImagePulls: 3
+  maxPods: 200
   serializeImagePulls: false
   shutdownGracePeriod: 90s
   shutdownGracePeriodCriticalPods: 60s
 defaultRuntimeSeccompProfileEnabled: true
-image: ghcr.io/siderolabs/kubelet:v1.37.1
+image: ghcr.io/siderolabs/kubelet:{{ k8s_version }}
 ---
 apiVersion: v1alpha1
 kind: KubeNetworkConfig
@@ -197,7 +192,7 @@ dnsDomain: cluster.local
 podSubnets:
   - 10.42.0.0/16
 serviceSubnets:
-  - 10.43.0.0/16
+  - 10.43.0.0/12
 ---
 apiVersion: v1alpha1
 kind: KubePrismConfig

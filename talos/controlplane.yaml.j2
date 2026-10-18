@@ -21,6 +21,8 @@ cluster:
       key: {{ ENV.CLUSTER_ETCD_CA_KEY }}
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
+      auto-compaction-mode: periodic
+      auto-compaction-retention: 1h
   serviceAccount:
     key: {{ ENV.CLUSTER_SERVICEACCOUNT_KEY }}
 ---
@@ -32,11 +34,12 @@ labels:
 apiVersion: v1alpha1
 kind: KubeAPIServerConfig
 certExtraSANs:
-  - kotor.internal
+  - k8s.internal
+  - 127.0.0.1 # KubePrism
 extraArgs:
   enable-aggregator-routing: "true"
   feature-gates: HPAScaleToZero=true
-image: registry.k8s.io/kube-apiserver:v1.37.1
+image: registry.k8s.io/kube-apiserver:{{ ENV.K8S_VERSION }}
 ---
 apiVersion: v1alpha1
 kind: KubeAuditPolicyConfig
@@ -72,7 +75,7 @@ kind: KubeControllerManagerConfig
 extraArgs:
   bind-address: 0.0.0.0
   feature-gates: HPAScaleToZero=true
-image: registry.k8s.io/kube-controller-manager:v1.37.1
+image: registry.k8s.io/kube-controller-manager:{{ ENV.K8S_VERSION }}
 ---
 apiVersion: v1alpha1
 kind: KubeCoreDNSConfig
@@ -94,7 +97,7 @@ config:
 apiVersion: v1alpha1
 kind: KubeProxyConfig
 enabled: false
-image: registry.k8s.io/kube-proxy:v1.37.1
+image: registry.k8s.io/kube-proxy:{{ ENV.K8S_VERSION }}
 ---
 apiVersion: v1alpha1
 kind: KubeSchedulerConfig
@@ -115,7 +118,7 @@ config:
                 whenUnsatisfiable: ScheduleAnyway
 extraArgs:
   bind-address: 0.0.0.0
-image: registry.k8s.io/kube-scheduler:v1.37.1
+image: registry.k8s.io/kube-scheduler:{{ ENV.K8S_VERSION }}
 ---
 apiVersion: v1alpha1
 kind: KubeTalosAPIAccessConfig
@@ -124,4 +127,3 @@ allowedRoles:
 allowedKubernetesNamespaces:
   - actions-runner-system
   - system-upgrade
-
