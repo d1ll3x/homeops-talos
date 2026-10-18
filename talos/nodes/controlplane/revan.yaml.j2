@@ -1,0 +1,34 @@
+---
+machine:
+  type: controlplane
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  diskSelector:
+    match: disk.model == ""
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  maxSize: 100GiB
+---
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: miroir
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme" && !system_disk
+  grow: true
+  minSize: 1GiB
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: revan
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  topology.kubernetes.io/zone: servers
+
