@@ -6,7 +6,7 @@ apiVersion: v1alpha1
 kind: UnattendedInstallConfig
 provisioning:
   diskSelector:
-    match: disk.model == ""
+    match: disk.model.startsWith("Samsung")
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
@@ -19,7 +19,7 @@ kind: RawVolumeConfig
 name: miroir
 provisioning:
   diskSelector:
-    match: disk.transport == "nvme" && !system_disk
+    match: disk.model == "CT1000P3SSD8"
   grow: true
   minSize: 1GiB
 ---

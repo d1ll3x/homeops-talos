@@ -37,14 +37,6 @@ clientIdentifier: mac
 ---
 apiVersion: v1alpha1
 kind: VLANConfig
-name: bond0.20
-vlanID: 20
-parent: bond0
-mtu: 9000
----
-# IoT
-apiVersion: v1alpha1
-kind: VLANConfig
 name: bond0.50
 vlanID: 50
 parent: bond0
@@ -192,7 +184,7 @@ dnsDomain: cluster.local
 podSubnets:
   - 10.42.0.0/16
 serviceSubnets:
-  - 10.43.0.0/12
+  - 10.43.0.0/16
 ---
 apiVersion: v1alpha1
 kind: KubePrismConfig
