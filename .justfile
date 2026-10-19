@@ -27,5 +27,4 @@ log lvl msg *args:
 
 [private]
 template file *args:
-   fnox exec -- minijinja-cli --env "{{ file }}" {{ args }}
-
+    fnox exec -- minijinja-cli --env "{{ file }}" {{ args }}
